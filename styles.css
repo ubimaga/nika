@@ -1,0 +1,241 @@
+/* ===== ОБЩИЕ НАСТРОЙКИ ===== */
+
+/* Убираем стандартные отступы у всех элементов */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Основные цвета сайта. Задаём один раз здесь, чтобы легко менять. */
+:root {
+  --green: #1f7a4d;       /* фирменный зелёный (сукно бильярда) */
+  --green-dark: #14603c;  /* тёмный зелёный для наведения */
+  --dark: #0e1512;        /* почти чёрный фон */
+  --dark-2: #14201b;      /* тёмно-зелёный фон блоков */
+  --text: #eae7dd;        /* светлый текст */
+  --muted: #9fb0a6;       /* приглушённый серо-зелёный текст */
+}
+
+body {
+  font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Контейнер держит содержимое по центру и ограничивает ширину */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===== ШАПКА ===== */
+.header {
+  position: sticky;
+  top: 0;
+  background: rgba(14, 21, 18, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 10;
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.nav a {
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: #fff;
+}
+
+/* ===== ГЛАВНЫЙ ЭКРАН ===== */
+.hero {
+  padding: 120px 0;
+  text-align: center;
+  background:
+    linear-gradient(rgba(14, 21, 18, 0.85), rgba(14, 21, 18, 0.95)),
+    radial-gradient(circle at 50% 0%, #1f7a4d55, transparent 60%);
+}
+
+.hero__title {
+  font-size: 48px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.hero__subtitle {
+  font-size: 20px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+/* Кнопка */
+.btn {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform 0.15s, background 0.2s;
+}
+
+.btn:hover {
+  background: #269160;
+  transform: translateY(-2px);
+}
+
+/* ===== СЕКЦИИ ===== */
+.section {
+  padding: 80px 0;
+}
+
+.section--dark {
+  background: var(--dark-2);
+}
+
+.section__title {
+  font-size: 34px;
+  color: #fff;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.section__text {
+  color: var(--muted);
+  max-width: 640px;
+  margin: 0 auto 40px;
+  text-align: center;
+  font-size: 18px;
+}
+
+/* ===== КАРТОЧКИ "О КЛУБЕ" ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  background: var(--dark-2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.card__icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.card h3 {
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: var(--muted);
+}
+
+/* ===== ЦЕНЫ ===== */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.price-card {
+  background: var(--dark);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 28px;
+}
+
+.price-card__day {
+  color: var(--green);
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.price-list {
+  list-style: none;
+}
+
+.price-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.price-list li:last-child {
+  border-bottom: none;
+}
+
+.price-list b {
+  color: #fff;
+}
+
+/* ===== КОНТАКТЫ ===== */
+.contacts {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 32px;
+}
+
+.contacts p {
+  margin-bottom: 12px;
+}
+
+.contacts a {
+  color: var(--green);
+}
+
+#contacts {
+  text-align: center;
+}
+
+/* ===== ПОДВАЛ ===== */
+.footer {
+  padding: 32px 0;
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===== ТЕЛЕФОНЫ И ПЛАНШЕТЫ ===== */
+/* Когда экран уже 760px, карточки выстраиваются в один столбец */
+@media (max-width: 760px) {
+  .nav { display: none; }
+  .hero__title { font-size: 34px; }
+  .cards,
+  .price-grid { grid-template-columns: 1fr; }
+}

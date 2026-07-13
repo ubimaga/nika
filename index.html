@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бильярдный клуб «Ника» — Санкт-Петербург</title>
+  <style>
+/* ===== ЛОКАЛЬНЫЕ ШРИФТЫ (в папке fonts, интернет не нужен) ===== */
+@font-face { font-family:"Lora"; src:url("fonts/Lora-Regular.ttf") format("truetype"); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:"Lora"; src:url("fonts/Lora-Bold.ttf") format("truetype"); font-weight:700; font-style:normal; font-display:swap; }
+@font-face { font-family:"Lora"; src:url("fonts/Lora-Italic.ttf") format("truetype"); font-weight:400; font-style:italic; font-display:swap; }
+@font-face { font-family:"Poiret One"; src:url("fonts/PoiretOne-Regular.ttf") format("truetype"); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:"Jura"; src:url("fonts/Jura-Medium.ttf") format("truetype"); font-weight:500; font-style:normal; font-display:swap; }
+@font-face { font-family:"Arsenal SC"; src:url("fonts/ArsenalSC-Regular.ttf") format("truetype"); font-weight:400; font-style:normal; font-display:swap; }
+
+/* ===== ОБЩИЕ НАСТРОЙКИ ===== */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  /* Палитра «тёплый лаунж»: полумрак, терракота стен, янтарь, сукно */
+  --espresso:#1C130E;   /* основной фон — полумрак лаунжа */
+  --mocha:#26190F;      /* фон панелей и чётных секций */
+  --wall:#B85C38;       /* терракота (стены клуба) */
+  --ember:#8A3E20;      /* глубокий жжёный */
+  --amber:#E0A04A;      /* янтарный акцент */
+  --felt:#1C6A50;       /* сукно бильярдного стола */
+  --cream:#F1E3CC;      /* основной текст */
+  --cream-dim:#BFAd8E;  /* приглушённый текст */
+  --line:rgba(241,227,204,0.14);
+
+  --display:"Poiret One", "Century Gothic", sans-serif;
+  --body:"Lora", Georgia, "Times New Roman", serif;
+  --label:"Arsenal SC", Georgia, serif;
+  --data:"Jura", "Consolas", monospace;
+}
+
+body {
+  font-family:var(--body);
+  background:var(--espresso);
+  color:var(--cream);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+
+.container { max-width:1060px; margin:0 auto; padding:0 22px; }
+a { color:inherit; text-decoration:none; }
+
+/* видимый фокус для доступности */
+a:focus-visible, button:focus-visible {
+  outline:2px solid var(--amber); outline-offset:3px; border-radius:4px;
+}
+
+/* Ромбы-прицелы с бортов стола — сквозной мотив-разделитель */
+.diamonds {
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  color:var(--wall); font-size:11px; margin:16px 0 0;
+}
+.diamonds::before, .diamonds::after {
+  content:""; width:60px; height:1px; background:var(--line);
+}
+
+/* ===== ШАПКА ===== */
+.header {
+  position:sticky; top:0; z-index:10;
+  background:rgba(28,19,14,0.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header__inner {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:22px; padding:12px 0;
+}
+.logo { line-height:1; }
+.logo__name {
+  font-family:var(--display);
+  font-size:30px; letter-spacing:6px; text-transform:uppercase;
+  color:var(--cream);
+}
+.logo__sub {
+  display:block; font-family:var(--label);
+  font-size:11px; letter-spacing:4px; color:var(--amber);
+  margin-top:4px; padding-left:6px;
+}
+.tabs { display:flex; flex-wrap:wrap; gap:2px; }
+.tab-btn {
+  background:none; border:none; cursor:pointer;
+  font-family:var(--label); font-size:16px; letter-spacing:1.5px;
+  color:var(--cream-dim); padding:8px 14px; border-radius:6px;
+  transition:color .2s;
+}
+.tab-btn:hover { color:var(--cream); }
+.tab-btn.active { color:var(--amber); }
+.header__cta {
+  font-family:var(--label); font-size:15px; letter-spacing:1px;
+  background:var(--wall); color:var(--cream);
+  padding:10px 22px; border-radius:999px; white-space:nowrap;
+  transition:background .2s, transform .15s;
+}
+.header__cta:hover { background:var(--ember); transform:translateY(-1px); }
+
+/* ===== ПАНЕЛИ ВКЛАДОК ===== */
+.tab-panel { display:none; }
+.tab-panel.active { display:block; animation:fade .45s ease both; }
+@keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+
+/* ===== ГЛАВНЫЙ ЭКРАН ===== */
+.hero {
+  min-height:90vh; display:flex; align-items:center;
+  padding:90px 0; text-align:center;
+  background-color:var(--mocha);
+  background-image:
+    linear-gradient(rgba(28,18,12,0.66), rgba(20,13,9,0.9)),
+    url('club.png');
+  background-size:cover; background-position:center; background-repeat:no-repeat;
+}
+.hero .container { width:100%; max-width:940px; }
+.hero__eyebrow {
+  font-family:var(--label); font-size:15px; letter-spacing:5px;
+  text-transform:uppercase; color:var(--amber); margin-bottom:28px;
+}
+.hero__title {
+  font-family:var(--display); font-weight:400;
+  font-size:72px; line-height:1.18; letter-spacing:1px;
+  color:var(--cream); margin-bottom:44px;
+  text-shadow:0 2px 30px rgba(0,0,0,0.5);
+}
+.hero__accent { color:var(--amber); position:relative; white-space:nowrap; }
+.hero__accent::after {
+  content:""; position:absolute; left:0; right:0; bottom:-12px; height:12px;
+  background:no-repeat center / 100% 100%
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14'><path d='M3 9 C 80 2, 220 2, 297 8' stroke='%23E0A04A' stroke-width='3' fill='none' stroke-linecap='round'/></svg>");
+}
+.btn {
+  display:inline-flex; align-items:center; gap:12px;
+  font-family:var(--label); font-size:17px; letter-spacing:1px;
+  background:var(--wall); color:var(--cream);
+  padding:8px 28px 8px 8px; border-radius:999px;
+  transition:background .2s, transform .15s;
+}
+.btn:hover { background:var(--ember); transform:translateY(-2px); }
+.btn__arrow {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:42px; height:42px; border-radius:50%;
+  background:var(--cream); color:var(--wall); font-size:18px;
+}
+
+/* ===== СЕКЦИИ ===== */
+.section { padding:78px 0; }
+.section--dark { background:var(--mocha); }
+.section__title {
+  font-family:var(--display); font-weight:400;
+  font-size:44px; letter-spacing:1px; color:var(--cream);
+  text-align:center; margin-bottom:6px;
+}
+.section__title::after {
+  content:"◆ ◆ ◆"; display:block;
+  color:var(--wall); font-size:11px; letter-spacing:10px;
+  margin:16px 0 0; padding-left:10px;
+}
+.section__text {
+  color:var(--cream-dim); max-width:620px; margin:18px auto 44px;
+  text-align:center; font-size:17px;
+}
+
+/* ===== ГРАФИК РАБОТЫ ===== */
+.schedule {
+  max-width:520px; margin:0 auto;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  background:var(--mocha);
+}
+.schedule__row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:15px 26px; border-bottom:1px solid var(--line);
+}
+.schedule__row:last-child { border-bottom:none; }
+.schedule__row span { font-size:17px; }
+.schedule__row b {
+  font-family:var(--data); font-weight:500; letter-spacing:1px;
+  color:var(--amber); font-size:16px;
+}
+.section--dark .schedule { background:var(--espresso); }
+
+/* ===== ЦЕНЫ (бильярдная «доска»: сукно-заголовок + рейка-борт) ===== */
+.price-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+.price-card {
+  border:1px solid var(--ember); border-radius:12px; overflow:hidden;
+  background:var(--espresso);
+}
+.section--dark .price-card { background:var(--mocha); }
+.price-card__day {
+  font-family:var(--label); font-weight:400; font-size:17px; letter-spacing:1px;
+  background:var(--ember); color:var(--cream);
+  text-align:center; padding:14px 16px;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,0.25);
+}
+/* Блок «Дополнительно» — центрированная одиночная доска */
+.price-extra { max-width:520px; margin:26px auto 0; }
+.price-note {
+  max-width:520px; margin:16px auto 0; text-align:center;
+  font-size:14px; color:var(--cream-dim); font-style:italic;
+}
+
+/* ===== ПРАВИЛА КЛУБА ===== */
+.rules { max-width:680px; margin:0 auto; list-style:none; counter-reset:rule; }
+.rules li {
+  position:relative; padding:16px 0 16px 52px;
+  border-bottom:1px solid var(--line); font-size:16px;
+}
+.rules li:last-child { border-bottom:none; }
+.rules li::before {
+  counter-increment:rule; content:counter(rule);
+  position:absolute; left:0; top:14px;
+  width:32px; height:32px; border-radius:50%;
+  background:var(--ember); color:var(--cream);
+  font-family:var(--data); font-size:15px;
+  display:flex; align-items:center; justify-content:center;
+}
+.price-list { list-style:none; padding:12px 22px 20px; }
+.price-list li {
+  display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+  padding:12px 0; border-bottom:1px dotted var(--line);
+}
+.price-list li:last-child { border-bottom:none; }
+.price-list li span { color:var(--cream-dim); font-size:15px; }
+.price-list li b {
+  font-family:var(--data); font-weight:500; color:var(--amber);
+  font-size:19px; letter-spacing:0.5px; white-space:nowrap;
+}
+
+/* ===== МЕНЮ БАРА (барная карта с точечными выносами) ===== */
+.menu-columns { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; }
+.menu-col__title {
+  font-family:var(--display); font-weight:400; font-size:26px; letter-spacing:2px;
+  color:var(--wall); text-align:center; margin-bottom:6px;
+}
+.menu-col__title::after {
+  content:"◆"; display:block; color:var(--amber); font-size:10px;
+  margin:12px 0 22px;
+}
+.menu-cat { margin-bottom:26px; }
+.menu-cat h3 {
+  font-family:var(--label); font-weight:400; font-size:17px; letter-spacing:1.5px;
+  color:var(--amber); margin-bottom:8px; display:flex; align-items:center; gap:9px;
+}
+.menu-cat h3::before { content:"◆"; color:var(--wall); font-size:9px; }
+.menu-list { list-style:none; }
+/* точечный вынос между названием и ценой (без изменения разметки) */
+.menu-list li {
+  display:grid; grid-template-columns:auto 1fr auto; align-items:baseline;
+  column-gap:10px; padding:6px 0;
+}
+.menu-list li span { grid-column:1; color:var(--cream); font-size:15.5px; }
+.menu-list li::before {
+  content:""; grid-column:2; align-self:center;
+  border-bottom:1px dotted var(--line); transform:translateY(2px);
+}
+.menu-list li b {
+  grid-column:3; font-family:var(--data); font-weight:500;
+  color:var(--amber); font-size:15px; white-space:nowrap;
+}
+
+/* ===== ФОТО (вкладка) ===== */
+.photo-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+.photo-placeholder {
+  aspect-ratio:4 / 3; background:var(--mocha);
+  border:1px solid var(--ember); border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--amber); font-size:40px;
+}
+
+/* ===== КОНТАКТЫ ===== */
+.tab-panel--contacts .section { text-align:center; }
+.contacts { font-size:18px; margin-bottom:32px; }
+.contacts p { margin-bottom:14px; }
+.contacts strong { font-family:var(--label); font-weight:400; letter-spacing:1px; color:var(--cream-dim); }
+.contacts a { color:var(--amber); }
+/* Подсветка номера при клике по «Забронировать» на компьютере */
+#contact-phone { display:inline-block; padding:2px 8px; border-radius:8px; }
+.phone-flash { animation:phoneFlash 1.4s ease 2; }
+@keyframes phoneFlash {
+  0%, 100% { background:transparent; color:var(--amber); box-shadow:none; }
+  30%      { background:var(--amber); color:var(--espresso); box-shadow:0 0 0 6px rgba(224,160,74,0.25); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .phone-flash { animation:none; background:var(--amber); color:var(--espresso); }
+}
+
+/* ===== ПОДВАЛ ===== */
+.footer {
+  padding:40px 0; text-align:center; border-top:1px solid var(--line);
+  background:var(--mocha);
+}
+.footer__name {
+  font-family:var(--display); font-size:22px; letter-spacing:5px;
+  text-transform:uppercase; color:var(--cream); display:block; margin-bottom:8px;
+}
+.footer p { color:var(--cream-dim); font-size:14px; }
+
+/* ===== АДАПТАЦИЯ ===== */
+@media (max-width:880px) {
+  .header__inner { flex-wrap:wrap; justify-content:center; text-align:center; }
+  .tabs { order:3; width:100%; justify-content:center; }
+  .menu-columns { grid-template-columns:1fr; gap:34px; }
+  .price-grid { grid-template-columns:1fr; max-width:460px; margin:0 auto; }
+}
+@media (max-width:760px) {
+  .hero__title { font-size:44px; }
+  .hero__accent { white-space:normal; }
+  .section__title { font-size:34px; }
+  .photo-grid { grid-template-columns:repeat(2, 1fr); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .tab-panel.active { animation:none; }
+  * { scroll-behavior:auto; }
+}
+  </style>
+</head>
+<body>
+
+  <!-- ШАПКА С ВКЛАДКАМИ -->
+  <header class="header">
+    <div class="container header__inner">
+      <div class="logo">
+        <span class="logo__name">Ника</span>
+        <span class="logo__sub">БИЛЬЯРДНЫЙ КЛУБ</span>
+      </div>
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="home">Главная</button>
+        <button class="tab-btn" data-tab="prices">Цены</button>
+        <button class="tab-btn" data-tab="bar">Бар</button>
+        <button class="tab-btn" data-tab="photo">Фото</button>
+        <button class="tab-btn" data-tab="contacts">Контакты</button>
+      </nav>
+      <a href="tel:+78123061333" class="header__cta">Забронировать</a>
+    </div>
+  </header>
+
+  <!-- ================= ГЛАВНАЯ ================= -->
+  <div class="tab-panel active" id="home">
+    <section class="hero">
+      <div class="container">
+        <p class="hero__eyebrow">Бильярдный клуб «Ника» · Санкт-Петербург</p>
+        <h1 class="hero__title">
+          Уютное место <span class="hero__accent">для игры в бильярд</span>
+        </h1>
+        <a href="tel:+78123061333" class="btn">
+          <span class="btn__arrow">→</span> Забронировать стол
+        </a>
+      </div>
+    </section>
+
+    <!-- График работы -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">График работы</h2>
+        <div class="schedule">
+          <div class="schedule__row"><span>Понедельник</span><b>11:00 – 02:00</b></div>
+          <div class="schedule__row"><span>Вторник</span><b>11:00 – 02:00</b></div>
+          <div class="schedule__row"><span>Среда</span><b>11:00 – 02:00</b></div>
+          <div class="schedule__row"><span>Четверг</span><b>11:00 – 02:00</b></div>
+          <div class="schedule__row"><span>Пятница</span><b>11:00 – 04:00</b></div>
+          <div class="schedule__row"><span>Суббота</span><b>11:00 – 04:00</b></div>
+          <div class="schedule__row"><span>Воскресенье</span><b>11:00 – 04:00</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Цены -->
+    <section class="section section--dark">
+      <div class="container">
+        <h2 class="section__title">Цены на бильярд</h2>
+        <p class="section__text">Стоимость указана за один час игры.</p>
+        <div class="price-grid">
+          <div class="price-card">
+            <h3 class="price-card__day">Понедельник — Четверг</h3>
+            <ul class="price-list">
+              <li><span>11:00 – 14:00</span><b>400 ₽</b></li>
+              <li><span>14:00 – 18:00</span><b>570 ₽</b></li>
+              <li><span>после 18:00</span><b>690 ₽</b></li>
+            </ul>
+          </div>
+          <div class="price-card">
+            <h3 class="price-card__day">Пятница</h3>
+            <ul class="price-list">
+              <li><span>11:00 – 14:00</span><b>400 ₽</b></li>
+              <li><span>14:00 – 18:00</span><b>570 ₽</b></li>
+              <li><span>после 18:00</span><b>690 ₽</b></li>
+            </ul>
+          </div>
+          <div class="price-card">
+            <h3 class="price-card__day">Суббота — Воскресенье</h3>
+            <ul class="price-list">
+              <li><span>11:00 – 18:00</span><b>570 ₽</b></li>
+              <li><span>после 18:00</span><b>750 ₽</b></li>
+              <li><span>06:00 – 11:00 (утро)</span><b>2000 ₽</b></li>
+            </ul>
+          </div>
+        </div>
+        <div class="price-card price-extra">
+          <h3 class="price-card__day">Дополнительно</h3>
+          <ul class="price-list">
+            <li><span>Прокатный кий</span><b>250 ₽</b></li>
+            <li><span>Перчатки</span><b>400 ₽</b></li>
+            <li><span>Существенная порча/поломка кия</span><b>3000 ₽</b></li>
+          </ul>
+        </div>
+        <p class="price-note">С 06:00 до 10:00 скидочная карта не действует.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">Правила клуба</h2>
+        <ol class="rules">
+          <li>Закрытие стола происходит после сдачи шаров.</li>
+          <li>Все заказы и расчёт производятся до оказания услуги у стойки бара.</li>
+          <li>Вход с напитками и едой в Клуб запрещён.</li>
+        </ol>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= ЦЕНЫ ================= -->
+  <div class="tab-panel" id="prices">
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">Цены на бильярд</h2>
+        <p class="section__text">Стоимость указана за один час игры.</p>
+        <div class="price-grid">
+          <div class="price-card">
+            <h3 class="price-card__day">Понедельник — Четверг</h3>
+            <ul class="price-list">
+              <li><span>11:00 – 14:00</span><b>400 ₽</b></li>
+              <li><span>14:00 – 18:00</span><b>570 ₽</b></li>
+              <li><span>после 18:00</span><b>690 ₽</b></li>
+            </ul>
+          </div>
+          <div class="price-card">
+            <h3 class="price-card__day">Пятница</h3>
+            <ul class="price-list">
+              <li><span>11:00 – 14:00</span><b>400 ₽</b></li>
+              <li><span>14:00 – 18:00</span><b>570 ₽</b></li>
+              <li><span>после 18:00</span><b>690 ₽</b></li>
+            </ul>
+          </div>
+          <div class="price-card">
+            <h3 class="price-card__day">Суббота — Воскресенье</h3>
+            <ul class="price-list">
+              <li><span>11:00 – 18:00</span><b>570 ₽</b></li>
+              <li><span>после 18:00</span><b>750 ₽</b></li>
+              <li><span>06:00 – 11:00 (утро)</span><b>2000 ₽</b></li>
+            </ul>
+          </div>
+        </div>
+        <div class="price-card price-extra">
+          <h3 class="price-card__day">Дополнительно</h3>
+          <ul class="price-list">
+            <li><span>Прокатный кий</span><b>250 ₽</b></li>
+            <li><span>Перчатки</span><b>400 ₽</b></li>
+            <li><span>Существенная порча/поломка кия</span><b>3000 ₽</b></li>
+          </ul>
+        </div>
+        <p class="price-note">С 06:00 до 10:00 скидочная карта не действует.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= БАР ================= -->
+  <div class="tab-panel" id="bar">
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">Бар</h2>
+        <p class="section__text">
+          Большой выбор напитков и закусок. Всё можно заказать прямо к вашему столу.
+        </p>
+        <div class="menu-columns">
+
+          <!-- ЛЕВАЯ КОЛОНКА: АЛКОГОЛЬ (от менее крепкого к более крепкому) -->
+          <div class="menu-col">
+            <h2 class="menu-col__title">Алкоголь</h2>
+
+            <div class="menu-cat">
+              <h3>Пиво разливное · 0.5 л</h3>
+              <ul class="menu-list">
+                <li><span>Крушовице светлое</span><b>250 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Пиво бутылочное · 0.5 л</h3>
+              <ul class="menu-list">
+                <li><span>Крушовице тёмное</span><b>290 ₽</b></li>
+                <li><span>Крушовице светлое</span><b>290 ₽</b></li>
+                <li><span>Голд Премиум светлое</span><b>290 ₽</b></li>
+                <li><span>Белый Колос нефильтр.</span><b>290 ₽</b></li>
+                <li><span>Сидр яблоко/груша</span><b>290 ₽</b></li>
+                <li><span>Безалкогольное</span><b>260 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Вино · 750 мл</h3>
+              <ul class="menu-list">
+                <li><span>Красное</span><b>1800 ₽</b></li>
+                <li><span>Белое</span><b>1800 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Шампанское</h3>
+              <ul class="menu-list">
+                <li><span>Абрау Дюрсо</span><b>1500 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Вермут</h3>
+              <ul class="menu-list">
+                <li><span>Мартини</span><b>200 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Ликёры · 50 мл</h3>
+              <ul class="menu-list">
+                <li><span>Крем Ликёр</span><b>200 ₽</b></li>
+                <li><span>Блю Кюрасао</span><b>200 ₽</b></li>
+                <li><span>Кампари</span><b>220 ₽</b></li>
+                <li><span>Самбука</span><b>250 ₽</b></li>
+                <li><span>Егермейстер</span><b>290 ₽</b></li>
+                <li><span>Абсент</span><b>300 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Водка · 50 мл</h3>
+              <ul class="menu-list">
+                <li><span>Важный гусь</span><b>170 ₽</b></li>
+                <li><span>Белуга</span><b>250 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Джин</h3>
+              <ul class="menu-list">
+                <li><span>Баристер</span><b>200 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Ром</h3>
+              <ul class="menu-list">
+                <li><span>Барсело Бланка</span><b>250 ₽</b></li>
+                <li><span>Барсело Тёмный</span><b>250 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Текила</h3>
+              <ul class="menu-list">
+                <li><span>Серебряная</span><b>250 ₽</b></li>
+                <li><span>Золотая</span><b>250 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Виски</h3>
+              <ul class="menu-list">
+                <li><span>Вильям Лоусонс</span><b>250 ₽</b></li>
+                <li><span>Дьюарс</span><b>300 ₽</b></li>
+                <li><span>Джим Бим</span><b>300 ₽</b></li>
+                <li><span>Ред Лейбл</span><b>300 ₽</b></li>
+                <li><span>Джек Дэниелс</span><b>370 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Коньяк</h3>
+              <ul class="menu-list">
+                <li><span>Старейшина</span><b>200 ₽</b></li>
+                <li><span>Арарат</span><b>280 ₽</b></li>
+                <li><span>Камю</span><b>600 ₽</b></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ПРАВАЯ КОЛОНКА: БЕЗАЛКОГОЛЬНОЕ И ЕДА -->
+          <div class="menu-col">
+            <h2 class="menu-col__title">Безалкогольное и еда</h2>
+
+            <div class="menu-cat">
+              <h3>Кофе</h3>
+              <ul class="menu-list">
+                <li><span>Американо</span><b>200 ₽</b></li>
+                <li><span>Эспрессо</span><b>200 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Чай</h3>
+              <ul class="menu-list">
+                <li><span>Чай в чайнике</span><b>350 ₽</b></li>
+                <li><span>Чай пакет</span><b>100 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Напитки</h3>
+              <ul class="menu-list">
+                <li><span>Лимонад в ассорт. 0.33 л</span><b>200 ₽</b></li>
+                <li><span>Тоник 0.33 л</span><b>200 ₽</b></li>
+                <li><span>Энергетик 0.5 л</span><b>300 ₽</b></li>
+                <li><span>Сок 0.2 л</span><b>200 ₽</b></li>
+                <li><span>Вода газ/негаз</span><b>120 ₽</b></li>
+                <li><span>Сок 1 л</span><b>350 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Шоколад</h3>
+              <ul class="menu-list">
+                <li><span>Рафаэлло</span><b>80 ₽</b></li>
+                <li><span>Риттер Спорт</span><b>400 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Снэки</h3>
+              <ul class="menu-list">
+                <li><span>Сухарики 40 г</span><b>100 ₽</b></li>
+                <li><span>Чипсы 70 г</span><b>250 ₽</b></li>
+                <li><span>Арахис 90 г</span><b>250 ₽</b></li>
+                <li><span>Фисташки 90 г</span><b>400 ₽</b></li>
+              </ul>
+            </div>
+
+            <div class="menu-cat">
+              <h3>Закуски</h3>
+              <ul class="menu-list">
+                <li><span>Чебурек 150 г</span><b>150 ₽</b></li>
+                <li><span>Пицца 305 г</span><b>450 ₽</b></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= ФОТО ================= -->
+  <div class="tab-panel" id="photo">
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">Фото клуба</h2>
+        <p class="section__text">
+          Здесь появятся фотографии залов и столов. Пришлите снимки — добавим их сюда.
+        </p>
+        <div class="photo-grid">
+          <div class="photo-placeholder">🎱</div>
+          <div class="photo-placeholder">🎱</div>
+          <div class="photo-placeholder">🎱</div>
+          <div class="photo-placeholder">🎱</div>
+          <div class="photo-placeholder">🎱</div>
+          <div class="photo-placeholder">🎱</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= КОНТАКТЫ ================= -->
+  <div class="tab-panel tab-panel--contacts" id="contacts">
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">Контакты</h2>
+        <div class="contacts">
+          <p><strong>Адрес:</strong> Санкт-Петербург, Комендантский просп., 33, корп. 3</p>
+          <p><strong>Телефон:</strong> <a href="tel:+78123061333" id="contact-phone">8 (812) 306-13-33</a></p>
+          <p><strong>Часы работы:</strong> Пн–Чт 11:00–02:00, Пт–Вс 11:00–04:00</p>
+        </div>
+        <a href="tel:+78123061333" class="btn">
+          <span class="btn__arrow">→</span> Позвонить и забронировать
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ПОДВАЛ -->
+  <footer class="footer">
+    <div class="container">
+      <span class="footer__name">Ника</span>
+      <p>© 2026 Бильярдный клуб «Ника» · Санкт-Петербург, Комендантский просп., 33, корп. 3</p>
+    </div>
+  </footer>
+
+  <!-- ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК -->
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        buttons.forEach(function (b) { b.classList.remove('active'); });
+        panels.forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+        window.scrollTo(0, 0);
+      });
+    });
+
+    // ===== КНОПКИ «ЗАБРОНИРОВАТЬ / ПОЗВОНИТЬ» =====
+    // На телефоне — обычный звонок по tel:. На компьютере — переход на «Контакты» и подсветка номера.
+    var isPhone = /Android|iPhone|iPad|iPod|Mobile|Opera Mini|IEMobile|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+    var contactsTab = document.querySelector('.tab-btn[data-tab="contacts"]');
+    var phoneEl = document.getElementById('contact-phone');
+
+    document.querySelectorAll('.header__cta, .btn').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        if (isPhone) return;          // на телефоне не мешаем — идёт звонок
+        e.preventDefault();
+        contactsTab.click();          // перейти на вкладку «Контакты»
+        if (phoneEl) {
+          phoneEl.classList.remove('phone-flash');
+          void phoneEl.offsetWidth;   // сброс, чтобы анимация запустилась заново
+          phoneEl.classList.add('phone-flash');
+          phoneEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(function () { phoneEl.classList.remove('phone-flash'); }, 3200);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
